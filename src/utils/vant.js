@@ -22,7 +22,9 @@ import {
   Popup,
   Search,
   Divider,
-  ImagePreview
+  ImagePreview,
+  Picker,
+  DatetimePicker
 } from 'vant'
 
 Vue.use(Button)
@@ -48,3 +50,5 @@ Vue.use(Popup)
 Vue.use(Search)
 Vue.use(Divider)
 Vue.use(ImagePreview)
+Vue.use(Picker)
+Vue.use(DatetimePicker)

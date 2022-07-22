@@ -16,7 +16,9 @@
           :src="currentUser.photo"
         />
         <div class="name" slot="title">{{ currentUser.name }}</div>
-        <van-button class="update-btn" size="small" round>编辑资料</van-button>
+        <van-button class="update-btn" size="small" round to="/user/profile"
+          >编辑资料</van-button
+        >
       </van-cell>
       <van-grid :border="false" class="data-info">
         <van-grid-item class="data-info-item">
