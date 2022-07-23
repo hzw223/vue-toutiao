@@ -41,7 +41,7 @@ export default {
         message: '保存中',
         forbidClick: true
       })
-
+      console.log('this.currentDate', this.currentDate)
       const date = dayjs(this.currentDate).format('YYYY-MM-DD')
       await updateProfile({
         birthday: date
