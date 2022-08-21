@@ -66,4 +66,8 @@ export default {
   }
 }
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+/deep/.van-nav-bar__text {
+  color: #fff;
+}
+</style>

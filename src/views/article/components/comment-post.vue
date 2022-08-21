@@ -55,9 +55,9 @@ export default {
       console.log(this.target.toString(), this.message, this.articleId)
       try {
         const { data } = await addComment({
-          target: this.target.toString(), // 文章id
+          target: this.target.toString(), // 评论文章即为文章id，对评论进行回复则为评论id
           cotent: this.message, // 评论的内容
-          art_id: this.articleId ? this.articleId.toString() : null // 回复文章评论时要传，评论文章时不用传
+          art_id: this.articleId ? this.articleId.toString() : null // 回复评论时要传，评论文章时不用传
         })
         console.log(data)
         this.$emit('post-success', data.data.new_obj) // 将接收的数据传给父组件

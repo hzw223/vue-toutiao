@@ -13,7 +13,7 @@
     >
       <van-cell-group>
         <van-field
-          v-model="user.mobile"
+          v-model="loginUser.mobile"
           center
           icon-prefix="toutiao"
           left-icon="shouji"
@@ -22,7 +22,7 @@
           :rules="formRules.mobile"
         />
         <van-field
-          v-model="user.code"
+          v-model="loginUser.code"
           clearable
           center
           icon-prefix="toutiao"
@@ -61,13 +61,14 @@
 
 <script>
 import { login, sendSms } from '@/api/user'
+
 export default {
   name: 'LoginIndex',
   components: {},
   props: {},
   data() {
     return {
-      user: {
+      loginUser: {
         mobile: '',
         code: ''
       },
@@ -99,14 +100,19 @@ export default {
         message: '登录中...' // 提示消息
       })
       try {
-        const { data } = await login(this.user)
-        console.log('登陆成功', data)
+        const { data } = await login(this.loginUser)
+        // console.log('登陆成功', data)
+
+        // 清除layout 的缓存，让它重新渲染
+        this.$store.commit('removeCachePage', 'LayoutIndex')
         // 将后端返回的用户登陆状态（token等）放到Vuex容器中
         this.$store.commit('setUser', data.data)
         // 提示 success 或者 fail 的时候，会先把其它的 toast 先清除
         this.$toast.success('登录成功')
         // 登录成功，跳转回原来的页面
-        this.$router.back() // 这种方式有缺陷
+        // this.$router.back() // 这种方式有缺陷
+        // 如果传递了当前路由路径，则返回原来的页面，否则回到首页
+        this.$router.replace(this.$route.query.redirect || '/')
       } catch (err) {
         if (err.response.status === 400) {
           console.log('登录失败', err)
@@ -128,7 +134,7 @@ export default {
         await this.$refs['login-form'].validate('mobile')
         // 验证通过 -> 请求发送验证码 -> 用户接收短信 -> 输入验证码 -> 请求登录
         this.isSendSmsLoading = true
-        await sendSms(this.user.mobile)
+        await sendSms(this.loginUser.mobile)
         // 请求发送验证码 -> 隐藏发送按钮，显示倒计时
         this.isCountDownShow = true
         // 倒计时结束 -> 隐藏倒计时，显示发送按钮(监视倒计时的 finish 事件处理)

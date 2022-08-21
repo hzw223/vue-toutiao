@@ -51,7 +51,7 @@ export default {
 
       // 更新成功，修改父组件name,关闭弹出层
       this.$emit('input', date)
-      this.$emit('cancle')
+      this.$emit('close')
     }
   }
 }

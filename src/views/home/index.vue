@@ -68,7 +68,7 @@ import ChannelEdit from './components/channel-edit'
 import { mapState } from 'vuex'
 import { getItem } from '@/utils/storage'
 export default {
-  name: 'homeIndex',
+  name: 'HomeIndex',
   components: {
     // 2 文章列表组件注册
     ArticleList,
@@ -85,7 +85,13 @@ export default {
   computed: {
     ...mapState(['user'])
   },
-  watch: {},
+  watch: {
+    // user() {
+    //   console.log('用户更新')
+    //   this.active = 0
+    //   this.loadChannels()
+    // }
+  },
   created() {
     this.loadChannels()
   },

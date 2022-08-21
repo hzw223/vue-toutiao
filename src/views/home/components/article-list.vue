@@ -1,5 +1,5 @@
 <template>
-  <div class="article-list">
+  <div class="article-list" ref="article-list">
     <van-pull-refresh v-model="isRefreshLoading" @refresh="onRefresh">
       <van-list
         v-model="loading"
@@ -20,6 +20,7 @@
 <script>
 import { getArticles } from '@/api/article'
 import ArticleItem from '@/components/article-item'
+import { debounce } from 'lodash'
 export default {
   name: 'ArticleList',
   components: {
@@ -37,13 +38,23 @@ export default {
       loading: false, // 控制加载中的loading状态
       finished: false, // 控制加载结束的状态，当加载结束，不再触发加载更多
       timestamp: null, // 请求下一页的时间戳
-      isRefreshLoading: false // 下拉刷新
+      isRefreshLoading: false, // 下拉刷新
+      scrollTop: 0 // 列表滚动到顶部的距离
     }
   },
   computed: {},
   watch: {},
   created() {},
-  mounted() {},
+  mounted() {
+    const articleList = this.$refs['article-list']
+    articleList.onscroll = debounce(() => {
+      this.scrollTop = articleList.scrollTop
+    }, 50)
+  },
+  activated() {
+    // 把记录的到顶部的距离重新设置回去
+    this.$refs['article-list'].scrollTop = this.scrollTop
+  },
   methods: {
     async onLoad() {
       // 异步更新数据

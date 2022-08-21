@@ -49,7 +49,16 @@
     </van-cell-group>
 
     <div v-else class="not-login">
-      <div @click="$router.push('/login')">
+      <div
+        @click="
+          $router.push({
+            name: 'login',
+            query: {
+              redirect: '/my'
+            }
+          })
+        "
+      >
         <img class="mobile" src="./mobile.png" />
       </div>
       <div class="text">登录 / 注册</div>
@@ -70,7 +79,7 @@
       />
     </van-grid>
 
-    <van-cell title="消息通知" is-link to="/" />
+    <van-cell title="消息通知" is-link to="/my" />
     <van-cell class="mb-4" title="小智同学" is-link to="/user/chat" />
     <van-cell
       v-if="user"
@@ -99,6 +108,12 @@ export default {
   watch: {},
   created() {
     this.loadCurrentUser()
+  },
+  activated() {
+    // activated被 keep-alive 缓存的组件激活时调用（包括首次渲染激活），没有缓存不会调用
+    if (this.user) {
+      this.loadCurrentUser()
+    }
   },
   mounted() {},
   methods: {

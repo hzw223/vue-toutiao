@@ -155,6 +155,7 @@ export default {
     CommentReply
   },
   props: {
+    // 通过路由props方式动态传递params参数
     articleId: {
       type: [Number, String, Object],
       required: true
@@ -177,13 +178,13 @@ export default {
     this.onLoading(this.articleId)
   },
   mounted() {
-    console.log(this.articleId)
+    // console.log(this.articleId)
   },
   methods: {
     async onLoading(articleId) {
       try {
         const { data } = await getArticleById(articleId)
-        //   console.log(data)
+        // console.log('此时文章的详情数据', data)
         this.article = data.data
         // console.log(this.article)
         // 点击图片预览
@@ -215,6 +216,7 @@ export default {
         const authorId = this.article.aut_id
         if (this.article.is_followed) {
           await deleteFollow(authorId)
+          // console.log('此时res:', res)
         } else {
           // 否则添加关注
           await addFollow(authorId)
@@ -288,7 +290,7 @@ export default {
     },
     onCommentReply(item) {
       this.isReplyShow = true // 展示回复评论
-      console.log('onCommentReply', item)
+      // console.log('onCommentReply', item)
       this.replyComment = item
     }
   }
